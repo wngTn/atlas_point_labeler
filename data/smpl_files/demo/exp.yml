@@ -1,0 +1,39 @@
+MAX_REPRO_ERROR: 50
+MAX_SPEED_ERROR: 50
+annot: annots
+body: COCO
+camera: null
+cfg: null
+cfg_model: null
+cfg_opts: []
+debug: false
+end: 100000
+from_file: null
+gender: neutral
+max_person: -1
+model: smpl
+no_opt: false
+opts:
+  smooth_poses: 10.0
+out: data/mvmp//output/smpl
+path: data/mvmp/
+pid:
+- 0
+restart: false
+robust3d: false
+save_origin: false
+skel3d: data/mvmp//output/keypoints3d
+smooth3d: 0
+start: 0
+step: 1
+sub: []
+sub_vis: []
+thres2d: 0.3
+undis: false
+verbose: true
+vis_det: false
+vis_mask: false
+vis_repro: false
+vis_smpl: false
+write_smpl_full: false
+write_vertices: false

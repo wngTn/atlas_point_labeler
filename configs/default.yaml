@@ -1,0 +1,33 @@
+ANNOTATE:
+  TRIALS: ['trial_08_recording_04'] # List of trials you want to annotate
+  MAX_DIST_TO_MESH: 0.15 # The maximum distance of a point in the point cloud and the mesh points
+  FRAME_IDS: # Which frames should be annotated
+    - 0 # Start of the frames (inclusive)
+    - 50 # End of the frames (exclusibe)
+    - 5 # Stride
+
+
+CALIBRATION:
+  TRIALS: ['trial_08_recording_04'] # List of trials you want to generate calibration files for
+  
+  # These parameters are useful for approximating the wall points as they remove the outliers of the point cloud, which may differ from trial to trial.
+  # Only useful for the initial guess of the wall positions
+  VOXEL_SPACE: 0.02
+  NB_POINTS: 80
+  RADIUS: 0.1
+  
+  # These parameters are ONLY USED for visualization of the walls
+  # Approximation of _X: Wideness, _Y: Depth, _Z: Height, GROUND: coordinates of the ground
+  _X: 4.5 # 
+  _Y: 5.5
+  _Z: 3.
+  GROUND: -0.8
+ 
+
+# Specifies what trial and which frames should be displayed
+VISUALIZE:
+  TRIAL: 'trial_08_recording_04'
+  FRAME_IDS:
+    - 0
+    - 10
+    - 5
