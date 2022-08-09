@@ -96,12 +96,15 @@ For calibration an Open3D window will pop up and you can rotate, move the walls 
 # Workflow #
 
 1. Make sure to have the necessary point clouds in `data/trials/`
-2. Generate a calibration file:
+2. Install packages and files:
+    - `pip install -r requirements.txt`
+    - `python scripts/download_all.py`
+3. Generate a calibration file:
     - `python run.py --cfg configs/default.yaml -c`
     - Use the keys from the given key mapping. Press `Enter` to save the calibration file
-3. Label the files given by your config:
+4. Label the point clouds with your calibration config:
     - `python run.py --cfg configs/default.yaml -a`
     - > ⚠️ This might take long. ~30s for each frame
-4. (Optional) You can visualize the annotated frame with:
+5. (Optional) You can visualize the annotated frames with:
     - `python run.py --cfg configs/default.yaml -v`
     - This might also take a while depending how many frames you want to visualize
