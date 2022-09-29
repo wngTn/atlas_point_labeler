@@ -4,6 +4,7 @@ from utils.config import get_cfg_defaults
 from extraction.point_labeler import PointLabeler
 
 import argparse
+import json
 
 
 def parse_args():
@@ -14,6 +15,7 @@ def parse_args():
     parser.add_argument('-c', '--calibrate', help='Sets the flag to start calibration', action='store_true')
     parser.add_argument('-a', '--annotate', help='Sets the flag to start annotating', action='store_true')
     parser.add_argument('-v', '--visualize', help='Sets the flag to start visualizing', action='store_true')
+    parser.add_argument('-m', '--vis_mesh', help='Visualize the point clouds with the mesh', action='store_true')
 
 
     args, _ = parser.parse_known_args()
@@ -33,10 +35,11 @@ def main():
 
     # # Create stdout handler for logging to the console (logs all five levels)
 
-
     # # Add both handlers to the logger
 
-    args, labeler_config = parse_args() 
+    args, labeler_config = parse_args()
+
+    
 
     pl = PointLabeler(labeler_config)
     if args.calibrate:
@@ -46,6 +49,8 @@ def main():
         pl.annotate()
     if args.visualize:
         pl.visualize()
+    if args.vis_mesh:
+        pl.visualize(vis_meshes=True)
 
     
 

@@ -1,14 +1,19 @@
+# Location of the point cloud files
+TRIALS_DATA_DIR: 'data/trials'
+# Location of the mesh files
+MESH_DATA_DIR: 'data/atlas_3d_keypoints'
+
 ANNOTATE:
-  TRIALS: ['trial_08_recording_04'] # List of trials you want to annotate
-  MAX_DIST_TO_MESH: 0.15 # The maximum distance of a point in the point cloud and the mesh points
-  FRAME_IDS: # Which frames should be annotated
+  TRIALS: ['211209_animal_trial_15'] # List of trials you want to annotate
+  MAX_DIST_TO_MESH: 0.25 # The maximum distance of a point in the point cloud and the mesh points
+  FRAME_IDS: # Which frames should be annotated | If start==end==0, all frames will be annotated
     - 0 # Start of the frames (inclusive)
-    - 50 # End of the frames (exclusibe)
+    - 0 # End of the frames (exclusibe)
     - 5 # Stride
 
 
 CALIBRATION:
-  TRIALS: ['trial_08_recording_04'] # List of trials you want to generate calibration files for
+  TRIALS: [25] # List of calibrations you want to generate calibration files for
   
   # These parameters are useful for approximating the wall points as they remove the outliers of the point cloud, which may differ from trial to trial.
   # Only useful for the initial guess of the wall positions
@@ -26,8 +31,8 @@ CALIBRATION:
 
 # Specifies what trial and which frames should be displayed
 VISUALIZE:
-  TRIAL: 'trial_08_recording_04'
+  TRIAL: '211209_animal_trial_15'
   FRAME_IDS:
     - 0
-    - 10
+    - 100
     - 5

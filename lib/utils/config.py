@@ -3,6 +3,9 @@ from yacs.config import CfgNode as CN
 
 _C = CN()
 
+_C.TRIALS_DATA_DIR = ''
+_C.MESH_DATA_DIR = ''
+
 _C.ANNOTATE = CN()
 _C.ANNOTATE.TRIALS = []
 _C.ANNOTATE.FRAME_IDS = [0, 0, 0]

@@ -131,7 +131,7 @@ def prune_point_clouds(point_cloud, meshes, max_dist_to_mesh):
     mesh_pcd_crop = assign_pcds(meshes, point_cloud)
     indices = []
     for mesh_points, cropped_pcd_index in mesh_pcd_crop:
-        n = len(cropped_pcd_index) // (N_PROCESSES - 1)
+        n = max(len(cropped_pcd_index) // (N_PROCESSES - 1), 1)
         chunks = gen_chunks(cropped_pcd_index, n)
         with get_context("spawn").Pool(processes=N_PROCESSES) as p:
             results = p.starmap(indices_in_range, zip(chunks, repeat(mesh_points, n), repeat(max_dist_to_mesh, n)))
@@ -183,7 +183,7 @@ def load_mesh(data_dir:str, frame_id):
     # loads the smpl model
     body_model = load_model(gender='neutral', model_path='data/smpl_models')
 
-    data = read_smpl(os.path.join(data_dir, str(frame_id).zfill(6) + '.json'))
+    data = read_smpl(os.path.join(data_dir, str(frame_id).zfill(4) + '_smpl.json'))
     # all the meshes in a frame
     frame_meshes = []
     for i in range(len(data)):
@@ -208,14 +208,15 @@ def load_mesh(data_dir:str, frame_id):
     return frame_meshes
 
 
-def extract_person(trial, anno_frame_ids, point_cloud_dir, labels_dir, max_dist_to_mesh):
-    mesh_dir = os.path.join('data', 'smpl_files', trial)
-
+def extract_person(anno_frame_ids, mesh_dir, point_cloud_dir, labels_dir, max_dist_to_mesh):
     if not os.path.exists(mesh_dir):
         logger.warn(f"There are no mesh data in {mesh_dir}. Skipping person extraction...")
         return
 
     for frame_id in tqdm(anno_frame_ids, desc="Extracting people..."):
+        if not os.path.exists(os.path.join(mesh_dir, str(frame_id).zfill(4) + '_smpl.json')):
+            continue
+
         pcd_filename = os.path.join(point_cloud_dir, f"{str(frame_id).zfill(4)}_pointcloud.ply")
         label_filename = os.path.join(labels_dir, f"{str(frame_id).zfill(4)}_pointcloud.label")
         point_cloud = o3d.io.read_point_cloud(pcd_filename)

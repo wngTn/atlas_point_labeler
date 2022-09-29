@@ -111,16 +111,18 @@ def get_floor_indices(point_cloud, z_floor_coordinate):
     return only_indices
 
 
-def extract_floor(trial, anno_frame_ids, point_cloud_dir, labels_dir):
-    cal_file = os.path.join('data', 'label_data', trial, 'calibrations.json')
+def extract_floor(trial, phase, anno_frame_ids, point_cloud_dir, labels_dir, cal_id):
+    cal_file = os.path.join('data', "calibrations", f'calibration_{cal_id}.json')
     if not os.path.exists(cal_file):
-        logger.warn(f"There was no calibration file for {trial} in {cal_file}. Skipping wall extraction...")
+        logger.warn(f"There was no calibration file for {trial}_{phase} in {cal_file}. Skipping wall extraction...")
         return
 
     with open(cal_file, 'r') as f:
         calibration_dict = json.load(f)
 
     for frame_id in tqdm(anno_frame_ids, desc="Extracting the floor..."):
+        if not os.path.exists(os.path.join(point_cloud_dir, f"{str(frame_id).zfill(4)}_pointcloud.ply")):
+            continue
         pcd_filename = os.path.join(point_cloud_dir, f"{str(frame_id).zfill(4)}_pointcloud.ply")
         label_filename = os.path.join(labels_dir, f"{str(frame_id).zfill(4)}_pointcloud.label")
         point_cloud = o3d.io.read_point_cloud(pcd_filename)

@@ -38,10 +38,10 @@ def prune_point_clouds(point_cloud, rotation_around_z, min_x, min_y, max_x, max_
 
 
 
-def extract_wall(trial, anno_frame_ids, point_cloud_dir, labels_dir):
-    cal_file = os.path.join('data', 'label_data', trial, 'calibrations.json')
+def extract_wall(trial, phase, anno_frame_ids, point_cloud_dir, labels_dir, cal_id):
+    cal_file = os.path.join('data', "calibrations", f'calibration_{cal_id}.json')
     if not os.path.exists(cal_file):
-        logger.warn(f"There was no calibration file for {trial} in {cal_file}. Skipping wall extraction...")
+        logger.warn(f"There was no calibration file for {trial}_{phase} in {cal_file}. Skipping wall extraction...")
         return
 
 
@@ -49,6 +49,8 @@ def extract_wall(trial, anno_frame_ids, point_cloud_dir, labels_dir):
         calibration_dict = json.load(f)
 
     for frame_id in tqdm(anno_frame_ids, desc="Extracting walls..."):
+        if not os.path.exists(os.path.join(point_cloud_dir, f"{str(frame_id).zfill(4)}_pointcloud.ply")):
+            continue
 
         pcd_filename = os.path.join(point_cloud_dir, f"{str(frame_id).zfill(4)}_pointcloud.ply")
         label_filename = os.path.join(labels_dir, f"{str(frame_id).zfill(4)}_pointcloud.label")
