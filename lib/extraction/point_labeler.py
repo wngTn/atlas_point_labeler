@@ -101,7 +101,7 @@ class PointLabeler:
         Sets the point cloud and label directories.
         """
         for trial in self.anno_trials:
-            data_dir = os.path.join('data', 'trials', trial)
+            data_dir = os.path.join(self.trial_data_dir, trial)
             if not os.path.exists(data_dir):
                 logger.warn(f"There is no data for the trial {trial} in {data_dir}.\nShutting down now...")
                 exit(0)
@@ -118,7 +118,7 @@ class PointLabeler:
 
                 assert cal_id != -1, f"No calibration found for {trial}, {phase}"
 
-                if len(glob(trial_label_path + 'point_clouds/**/*.ply')) != len(glob(phase_data_dir + 'cn01/*.ply')):
+                if len(glob(trial_label_path + '/point_clouds/*.ply')) != len(glob(phase_data_dir + '/cn01/*.ply')):
                     # We have to create the point clouds and labels ourselves
                     logger.info(f"There is no or insufficient data in {trial_label_path}. Writing data now...")
                     # Writing all the data ourselves
@@ -131,7 +131,7 @@ class PointLabeler:
                     cameras = list(sorted(next(os.walk(phase_data_dir))[1]))
                 
                     if len(self.anno_frame_ids) == 0:
-                        _anno_frame_ids = self.get_frame_ids_from_trial_path(self, trial, phase)
+                        _anno_frame_ids = self.get_frame_ids_from_trial_path(trial, phase)
                     else:
                         _anno_frame_ids = self.anno_frame_ids
                     # Create the merged point clouds and labels
@@ -174,11 +174,12 @@ class PointLabeler:
 
 
     def get_frame_ids_from_trial_path(self, trial, path):
-        path_to_pcd = os.path.join("data", "label_data", trial, path, "point_clouds")
+        path_to_pcd = os.path.join(self.trial_data_dir, trial, path)
 
-        point_clouds = list(sorted(os.listdir(path_to_pcd)))
 
-        frame_ids = [int(file_name[:-15]) for file_name in point_clouds]
+        point_cloud_files = map(os.path.basename, list(sorted(glob(path_to_pcd + "/cn01/*.ply"))))
+
+        frame_ids = [int(file_name[:-15]) for file_name in point_cloud_files]
 
         return frame_ids
 
@@ -197,7 +198,7 @@ class PointLabeler:
                 cal_id = get_calibration_id(trial, phase)
 
                 if len(self.anno_frame_ids) == 0:
-                    _anno_frame_ids = self.get_frame_ids_from_trial_path(self, trial, phase)
+                    _anno_frame_ids = self.get_frame_ids_from_trial_path(trial, phase)
                 else:
                     _anno_frame_ids = self.anno_frame_ids
 
