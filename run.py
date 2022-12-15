@@ -10,7 +10,7 @@ import json
 def parse_args():
     parser = argparse.ArgumentParser(description='Visualize in 3D')
     parser.add_argument(
-        '--cfg', help='configuration file name', type=str, default='./configs/demo.yaml'
+        '--cfg', help='configuration file name', type=str, default='./configs/default.yaml'
     )
     parser.add_argument('-c', '--calibrate', help='Sets the flag to start calibration', action='store_true')
     parser.add_argument('-a', '--annotate', help='Sets the flag to start annotating', action='store_true')

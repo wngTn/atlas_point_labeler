@@ -2,12 +2,12 @@
 
 # the smpl models
 data/smpl_models/smpl/*
+data/atlas_3d_keypoints/*
 
-data/**/*.ply
-data/**/*.jpg
-data/**/*.json
-data/**/*.yml
-data/**/*.label
+*.ply
+*.jpg
+*.yml
+*.label
 
 
 # Byte-compiled / optimized / DLL files
