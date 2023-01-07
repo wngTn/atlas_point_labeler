@@ -1,4 +1,5 @@
 import struct
+import os
 
 import logging
 logger = logging.getLogger(__name__)
@@ -15,6 +16,24 @@ def read_labels(filename):
     arr = [struct.unpack('<I', contents[4 * i:4 * i + 4])[0] for i in range(num_points)]
 
     return arr
+
+def delete_labels(filename, indices):
+    """
+    Takes only the labels specified by indices
+
+    :param filename: The filename of the label
+    :param indices: The indices to choose
+    """
+    labels = read_labels(filename)
+
+    labels = [struct.pack('<I', label) for i, label in enumerate(labels) if i in indices]
+    os.remove(filename)
+    logger.debug(f"Remove {filename}")
+    with open(filename, "bw") as f:
+        f.write(labels)
+    
+    logger.debug(f"Written {filename}")
+    
 
 
 def write_labels(filename, labels):

@@ -6,6 +6,7 @@ import open3d.visualization.gui as gui
 import struct
 from extraction.extract_person import extract_person
 from extraction.extract_wall import extract_wall
+from extraction.remove_noise import remove_noise
 import extraction.labels as labelutil
 from utils.calibrator import main as cal_main
 from glob import glob
@@ -206,8 +207,9 @@ class PointLabeler:
                     _anno_frame_ids = self.anno_frame_ids
 
                 # extract_person(_anno_frame_ids, mesh_dir, point_cloud_dir, labels_dir, self.max_dist_to_mesh)
-                extract_wall(trial, phase, _anno_frame_ids, point_cloud_dir, labels_dir, cal_id)
-                extract_floor(trial, phase, _anno_frame_ids, point_cloud_dir, labels_dir, cal_id)
+                # extract_wall(trial, phase, _anno_frame_ids, point_cloud_dir, labels_dir, cal_id)
+                # extract_floor(trial, phase, _anno_frame_ids, point_cloud_dir, labels_dir, cal_id)
+                remove_noise(trial, phase, _anno_frame_ids, point_cloud_dir, labels_dir, cal_id)
 
 
 def get_calibration_id(trial, phase):
